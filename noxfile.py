@@ -1,8 +1,9 @@
+import glob
 from pathlib import Path
 
 import nox
 
-LINT_FILES = ["forge-webhook-parser.py"]
+LINT_FILES = " ".join(glob.glob("*.py"))
 
 requirements_directory = Path("requirements")
 
