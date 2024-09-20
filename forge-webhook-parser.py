@@ -41,6 +41,8 @@ if "repository" in data and "clone_url" in data["repository"]:
     default_repo_url = data["repository"]["clone_url"]
 elif "project" in data and "git_http_url" in data["project"]:
     default_repo_url = data["project"]["git_http_url"]
+else:
+    default_repo_url = ""
 
 
 def extract_project_name() -> str:
