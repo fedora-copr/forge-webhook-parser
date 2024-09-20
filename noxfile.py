@@ -3,7 +3,7 @@ from pathlib import Path
 
 import nox
 
-LINT_FILES = " ".join(glob.glob("*.py"))
+LINT_FILES = [" ".join(glob.glob("*.py"))]
 
 requirements_directory = Path("requirements")
 
@@ -86,3 +86,10 @@ def typing(session: nox.Session):
     """
     install(session, req="typing")
     session.run("mypy", *session.posargs, *LINT_FILES)
+
+
+@nox.session
+def lint(session: nox.Session):
+    session.notify("static")
+    session.notify("formatters")
+    session.notify("typing")
