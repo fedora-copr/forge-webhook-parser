@@ -61,22 +61,13 @@ default_clone_path = Path.cwd() / extract_project_name()
 
 
 def clean_clone_path(clone_path: Path = default_clone_path):
-    """Remove already cloned repositories if they exist.
-
-    Args:
-        clone_path (Path): Directory of the cloned repo.
-    """
+    """Remove already cloned repositories if they exist."""
     if clone_path.exists():
         shutil.rmtree(clone_path, ignore_errors=True)
 
 
 def clone_repo(repo_url: str = default_repo_url, clone_path: Path = default_clone_path):
-    """Clone the repository to the current working directory.
-
-    Args:
-        repo_url (str): Location of the repo.
-        clone_path (Path): Directory to clone the repo into.
-    """
+    """Clone the repository to the current working directory."""
     cmd: list[str] = ["git", "clone", repo_url, "--depth=1"]
     cmd.append(str(clone_path))
     subprocess.run(cmd, check=True)
