@@ -37,15 +37,10 @@ args = parser.parse_args()
 with open(args.file, "r", encoding="utf-8") as file:
     data = json.load(file)
 
-repo_url_keys = []
-
 if "repository" in data and "clone_url" in data["repository"]:
-    repo_url_keys.append(data["repository"]["clone_url"])
-
-if "project" in data and "git_http_url" in data["project"]:
-    repo_url_keys.append(data["project"]["git_http_url"])
-
-default_repo_url = next((url for url in repo_url_keys if url), "")
+    default_repo_url = data["repository"]["clone_url"]
+elif "project" in data and "git_http_url" in data["project"]:
+    default_repo_url = data["project"]["git_http_url"]
 
 
 def extract_project_name() -> str:
