@@ -4,9 +4,25 @@
 #
 #    pip-compile --allow-unsafe --output-file=requirements/typing.txt --strip-extras requirements/typing.in
 #
+argcomplete==3.5.0
+    # via nox
+colorlog==6.8.2
+    # via nox
+distlib==0.3.8
+    # via virtualenv
+filelock==3.16.1
+    # via virtualenv
 mypy==1.11.2
     # via -r requirements/typing.in
 mypy-extensions==1.0.0
     # via mypy
+nox==2024.4.15
+    # via -r requirements/typing.in
+packaging==24.1
+    # via nox
+platformdirs==4.3.6
+    # via virtualenv
 typing-extensions==4.12.2
     # via mypy
+virtualenv==20.26.5
+    # via nox
