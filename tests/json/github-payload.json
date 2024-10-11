@@ -1,0 +1,12 @@
+{
+  "repository": {
+    "clone_url": "https://github.com/owner/repository.git"
+  },
+  "commits": [
+    {
+      "added": ["ADDED.md"],
+      "removed": ["REMOVED.md"],
+      "modified": ["MODIFIED.md"]
+    }
+  ]
+}

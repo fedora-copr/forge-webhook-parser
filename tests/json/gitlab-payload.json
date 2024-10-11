@@ -1,0 +1,12 @@
+{
+  "project": {
+    "git_http_url": "https://gitlab.example.com/owner/repository.git"
+  },
+  "commits": [
+    {
+      "added": ["ADDED_FILE.md"],
+      "modified": ["REMOVED_FILE.md"],
+      "removed": ["MODIFIED_FILE.md"]
+    }
+  ]
+}
