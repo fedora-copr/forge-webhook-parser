@@ -5,12 +5,15 @@ the current directory.
 """
 
 import argparse
+import glob
 import json
 import shutil
 import subprocess
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional
+from urllib.request import urlopen
 
 
 @dataclass
@@ -26,16 +29,35 @@ class PayloadFields:
     default_clone_path: Optional[Path] = None
 
 
-PAYLOAD_FILE = "./github-payload.json"
-
 parser = argparse.ArgumentParser()
 parser.add_argument(
-    "-f", "--file", help="webhook payload file to parse", default=PAYLOAD_FILE
+    "-f", "--file", help="webhook payload file to parse", default=glob.glob("*.json")
 )
+parser.add_argument("-u", "--url", help="url of the webhook payload file")
 args = parser.parse_args()
 
-with open(args.file, "r", encoding="utf-8") as file:
-    data = json.load(file)
+try:
+    if args.url is not None:
+        response = urlopen(args.url)
+        data = json.loads(response.read())
+    elif args.file:
+        if isinstance(args.file, list):
+            if args.file:
+                filename = args.file[0]
+            else:
+                raise ValueError("No JSON payload files exist.")
+        else:
+            filename = args.file
+
+        with open(filename, "r", encoding="utf-8") as payload:
+            data = json.load(payload)
+    else:
+        print("No payload url or file provided.")
+        sys.exit(1)
+
+except Exception as e:
+    print(f"An error occurred: {str(e)}")
+    sys.exit(1)
 
 if "repository" in data and "clone_url" in data["repository"]:
     default_repo_url = data["repository"]["clone_url"]
