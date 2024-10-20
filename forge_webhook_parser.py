@@ -29,48 +29,49 @@ class PayloadFields:
     default_clone_path: Optional[Path] = None
 
 
-parser = argparse.ArgumentParser()
-group = parser.add_mutually_exclusive_group(required=True)
-group.add_argument("-f", "--file", help="webhook payload file to parse")
-group.add_argument("-u", "--url", help="url of the webhook payload file")
-args = parser.parse_args()
+def parse_arguments():
+    parser = argparse.ArgumentParser()
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("-f", "--file", help="webhook payload file to parse")
+    group.add_argument("-u", "--url", help="url of the webhook payload file")
+    return parser.parse_args()
 
 
-if args.url is not None:
-    response = requests.get(args.url)
-    data = response.json()
-elif args.file:
-    with open(args.file, "r", encoding="utf-8") as payload:
-        data = json.load(payload)
-
-if "repository" in data and "clone_url" in data["repository"]:
-    default_repo_url = data["repository"]["clone_url"]
-elif "project" in data and "git_http_url" in data["project"]:
-    default_repo_url = data["project"]["git_http_url"]
-else:
-    print("Payload does not include a repository url.")
-    sys.exit(1)
+def load_json_data(args):
+    if args.url is not None:
+        response = requests.get(args.url)
+        return response.json()
+    elif args.file:
+        with open(args.file, "r", encoding="utf-8") as payload:
+            return json.load(payload)
 
 
-def extract_project_name() -> str:
+def extract_repository_url(data):
+    if "repository" in data and "clone_url" in data["repository"]:
+        return data["repository"]["clone_url"]
+    elif "project" in data and "git_http_url" in data["project"]:
+        return data["project"]["git_http_url"]
+    else:
+        print("Payload does not include a repository url.")
+        sys.exit(1)
+
+
+def extract_project_name(repo_url: str) -> str:
     """Extract the name of the project from the clone url."""
-    if default_repo_url:
-        remove_git = default_repo_url.rstrip(".git")
+    if repo_url:
+        remove_git = repo_url.rstrip(".git")
         project_name = remove_git.split("/")[-1]
         return project_name
     return ""
 
 
-default_clone_path = Path.cwd() / extract_project_name()
-
-
-def clean_clone_path(clone_path: Path = default_clone_path):
+def clean_clone_path(clone_path: Path):
     """Remove already cloned repositories if they exist."""
     if clone_path.exists():
         shutil.rmtree(clone_path, ignore_errors=True)
 
 
-def clone_repo(repo_url: str = default_repo_url, clone_path: Path = default_clone_path):
+def clone_repo(repo_url: str, clone_path: Path):
     """Clone the repository to the current working directory."""
     cmd: list[str] = ["git", "clone", repo_url, "--depth=1"]
     cmd.append(str(clone_path))
@@ -101,8 +102,14 @@ def main():
     """
     Main execution function.
     """
-    clean_clone_path()
-    clone_repo()
+    args = parse_arguments()
+    data = load_json_data(args)
+    repo_url = extract_repository_url(data)
+    project_name = extract_project_name(repo_url)
+    clone_path = Path.cwd() / project_name
+
+    clean_clone_path(clone_path)
+    clone_repo(repo_url, clone_path)
 
     commits = data.get("commits", [])
     commit_changes = parse_commits(commits)
