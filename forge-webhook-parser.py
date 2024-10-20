@@ -5,7 +5,6 @@ the current directory.
 """
 
 import argparse
-import glob
 import json
 import shutil
 import subprocess
@@ -13,7 +12,8 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional
-from urllib.request import urlopen
+
+import requests
 
 
 @dataclass
@@ -30,41 +30,28 @@ class PayloadFields:
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument(
-    "-f", "--file", help="webhook payload file to parse", default=glob.glob("*.json")
-)
-parser.add_argument("-u", "--url", help="url of the webhook payload file")
+group = parser.add_mutually_exclusive_group(required=True)
+group.add_argument("-f", "--file", help="webhook payload file to parse")
+group.add_argument("-u", "--url", help="url of the webhook payload file")
 args = parser.parse_args()
 
-try:
-    if args.url is not None:
-        response = urlopen(args.url)
-        data = json.loads(response.read())
-    elif args.file:
-        if isinstance(args.file, list):
-            if args.file:
-                filename = args.file[0]
-            else:
-                raise ValueError("No JSON payload files exist.")
-        else:
-            filename = args.file
 
-        with open(filename, "r", encoding="utf-8") as payload:
-            data = json.load(payload)
-    else:
-        print("No payload url or file provided.")
-        sys.exit(1)
+if args.url is not None:
+    response = requests.get(args.url)
+    data = response.json()
+elif args.file:
+    filename = args.file
 
-except Exception as e:
-    print(f"An error occurred: {str(e)}")
-    sys.exit(1)
+    with open(filename, "r", encoding="utf-8") as payload:
+        data = json.load(payload)
 
 if "repository" in data and "clone_url" in data["repository"]:
     default_repo_url = data["repository"]["clone_url"]
 elif "project" in data and "git_http_url" in data["project"]:
     default_repo_url = data["project"]["git_http_url"]
 else:
-    default_repo_url = ""
+    print("Payload does not include a repository url.")
+    sys.exit(1)
 
 
 def extract_project_name() -> str:
