@@ -40,9 +40,7 @@ if args.url is not None:
     response = requests.get(args.url)
     data = response.json()
 elif args.file:
-    filename = args.file
-
-    with open(filename, "r", encoding="utf-8") as payload:
+    with open(args.file, "r", encoding="utf-8") as payload:
         data = json.load(payload)
 
 if "repository" in data and "clone_url" in data["repository"]:
