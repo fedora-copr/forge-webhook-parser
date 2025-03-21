@@ -3,7 +3,9 @@ from pathlib import Path
 
 import nox
 
-LINT_FILES = glob.glob("*.py")
+LINT_FILES = glob.glob("src/**/*.py", recursive=True) + glob.glob(
+    "tests/**/*.py", recursive=True
+)
 
 requirements_directory = Path("requirements")
 
