@@ -1,12 +1,111 @@
 {
+  "object_kind": "push",
+  "event_name": "push",
+  "before": "141b2d5d3f793e20f94421c554d8d9c51143ce0d",
+  "after": "b68a6794cd5c3702a2144be60c41a9ca982c416b",
+  "ref": "refs/heads/master",
+  "ref_protected": true,
+  "checkout_sha": "b68a6794cd5c3702a2144be60c41a9ca982c416b",
+  "message": null,
+  "user_id": 1234567,
+  "user_name": "Jane Doe",
+  "user_username": "janedoe",
+  "user_email": "jane.doe@example.com",
+  "user_avatar": "https://secure.gravatar.com/avatar/a3bf0ca88b8f876edf18231a6d851eb2?s=80&d=identicon",
+  "project_id": 9876543,
   "project": {
-    "git_http_url": "https://gitlab.example.com/owner/repository.git"
-  },
+      "id": 9876543,
+      "name": "wireplumber",
+      "description": "Session / policy manager implementation for PipeWire",
+      "web_url": "https://gitlab.freedesktop.org/pipewire/wireplumber",
+      "avatar_url": null,
+      "git_ssh_url": "git@gitlab.freedesktop.org:pipewire/wireplumber.git",
+      "git_http_url": "https://gitlab.freedesktop.org/pipewire/wireplumber.git",
+      "namespace": "PipeWire",
+      "visibility_level": 20,
+      "path_with_namespace": "pipewire/wireplumber",
+      "default_branch": "master",
+      "ci_config_path": null,
+      "homepage": "https://gitlab.freedesktop.org/pipewire/wireplumber",
+      "url": "git@gitlab.freedesktop.org:pipewire/wireplumber.git",
+      "ssh_url": "git@gitlab.freedesktop.org:pipewire/wireplumber.git",
+      "http_url": "https://gitlab.freedesktop.org/pipewire/wireplumber.git"
+    },
   "commits": [
-    {
-      "added": ["ADDED_FILE.md"],
-      "modified": ["REMOVED_FILE.md"],
-      "removed": ["MODIFIED_FILE.md"]
+      {
+            "id": "3d92c71f8a61e5dcb45d95ab23c1209ef8821540",
+            "message": "core: Fix memory leak in object manager\n\nThis fixes a memory leak in the object manager when handling\nobjects with many properties. The properties were not being\nfreely correctly after object destruction.\n",
+            "title": "core: Fix memory leak in object manager",
+            "timestamp": "2024-09-08T15:32:18+00:00",
+            "url": "https://gitlab.freedesktop.org/pipewire/wireplumber/-/commit/3d92c71f8a61e5dcb45d95ab23c1209ef8821540",
+            "author": {
+                    "name": "Robin Chen",
+                    "email": "robin.chen@example.com"
+                  },
+            "added": [],
+            "modified": [
+                    "src/core/object-manager.c",
+                    "src/core/object-manager.h",
+                    "tests/core/test-object-manager.c"
+                  ],
+            "removed": []
+          },
+      {
+            "id": "7a82fb59c32e9d851af4ecb6523f9c8b02a3e1fa",
+            "message": "modules: Add support for high-resolution audio formats\n\nAdds support for 24-bit and 32-bit audio formats in the audio\nmodules. Updates the format negotiation to handle higher bit depths\nand updates the documentation accordingly.\n",
+            "title": "modules: Add support for high-resolution audio formats",
+            "timestamp": "2024-09-09T11:47:21+00:00",
+            "url": "https://gitlab.freedesktop.org/pipewire/wireplumber/-/commit/7a82fb59c32e9d851af4ecb6523f9c8b02a3e1fa",
+            "author": {
+                    "name": "Maria Garcia",
+                    "email": "maria.garcia@example.com"
+                  },
+            "added": [
+                    "src/modules/module-hires-formats.c",
+                    "tests/audio/test-hires-formats.c",
+                    "docs/high-resolution-audio.md"
+                  ],
+            "modified": [
+                    "src/modules/module-audio-adapter.c",
+                    "src/modules/module-mixer.c",
+                    "meson.build",
+                    "docs/audio-formats.md"
+                  ],
+            "removed": []
+          },
+      {
+            "id": "b68a6794cd5c3702a2144be60c41a9ca982c416b",
+            "message": "autoswitch-bluetooth-profile: switch only Bluetooth devices\n\nHandle only devices associated with Bluetooth loopback nodes.\n\nMake sure the node.link-group iteration cannot get stuck if there is a\nloop in the link graph.\n",
+            "title": "autoswitch-bluetooth-profile: switch only Bluetooth devices",
+            "timestamp": "2024-09-10T07:51:03+00:00",
+            "url": "https://gitlab.freedesktop.org/pipewire/wireplumber/-/commit/b68a6794cd5c3702a2144be60c41a9ca982c416b",
+            "author": {
+                    "name": "Alex Smith",
+                    "email": "alex.smith@example.com"
+                  },
+            "added": [
+                    "src/scripts/device/bluetooth-utils.lua",
+                    "tests/bluetooth/profile-switching.lua"
+                  ],
+            "modified": [
+                    "src/scripts/device/autoswitch-bluetooth-profile.lua",
+                    "meson.build",
+                    "docs/bluetooth.md"
+                  ],
+            "removed": [
+                    "src/scripts/device/old-bluetooth-handler.lua"
+                  ]
+          }
+    ],
+  "total_commits_count": 3,
+  "push_options": {},
+  "repository": {
+      "name": "wireplumber",
+      "url": "git@gitlab.freedesktop.org:pipewire/wireplumber.git",
+      "description": "Session / policy manager implementation for PipeWire",
+      "homepage": "https://gitlab.freedesktop.org/pipewire/wireplumber",
+      "git_http_url": "https://gitlab.freedesktop.org/pipewire/wireplumber.git",
+      "git_ssh_url": "git@gitlab.freedesktop.org:pipewire/wireplumber.git",
+      "visibility_level": 20
     }
-  ]
 }
