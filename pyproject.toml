@@ -53,3 +53,6 @@ test-cov = "pytest --cov=forge_webhook_parser {args:tests}"
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
+
+[tool.isort]
+profile = "black"
