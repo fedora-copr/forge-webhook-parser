@@ -1,51 +1,85 @@
 """Pytest conftest.py"""
 
 import json
-import os
-import tempfile
 from pathlib import Path
+from typing import Any, Dict
+from unittest.mock import MagicMock
 
 import pytest
 
 TESTS_DIR = Path(__file__).parent
 JSON_DIR = TESTS_DIR / "json"
+EMPTY_PAYLOAD: Dict[str, Any] = {}
 
 
-def load_json_payload(filename):
+def load_json_payload(filename: str) -> Dict[str, Any]:
     with open(JSON_DIR / filename, encoding="utf-8") as file:
         return json.load(file)
 
 
-TEST_PAYLOADS = {
-    file.stem.upper().replace("-", "_"): load_json_payload(file.name)
-    for file in JSON_DIR.glob("*.json")
-}
+@pytest.fixture
+def github_payload() -> Dict[str, Any]:
+    """Return GitHub payload as a Python dict."""
+    try:
+        file_path = JSON_DIR / "github-payload.json"
+        with open(file_path, encoding="utf-8") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return {
+            "repository": {
+                "clone_url": "https://github.com/FrostyX/project-for-testing-tito.git"
+            },
+            "commits": [
+                {
+                    "added": ["ADDED.md"],
+                    "removed": ["REMOVED.md"],
+                    "modified": ["MODIFIED.md"],
+                }
+            ],
+        }
 
 
 @pytest.fixture
-def temp_github_payload():
-    """Create a temporary JSON file with GitHub payload."""
-    test_data = TEST_PAYLOADS["GITHUB_PAYLOAD"]
-    with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
-        json.dump(test_data, f)
-    yield f.name
-    os.unlink(f.name)
+def gitlab_payload() -> Dict[str, Any]:
+    """Return GitLab payload as Python dict."""
+    try:
+        file_path = JSON_DIR / "gitlab-payload.json"
+        with open(file_path, encoding="utf-8") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return {
+            "project": {
+                "git_http_url": "https://gitlab.freedesktop.org/pipewire/wireplumber.git"
+            },
+            "commits": [
+                {
+                    "added": ["ADDED_FILE.md"],
+                    "removed": ["REMOVED_FILE.md"],
+                    "modified": ["MODIFIED_FILE.md"],
+                }
+            ],
+        }
 
 
 @pytest.fixture
-def temp_gitlab_payload():
-    """Create a temporary JSON file with GitLab payload."""
-    test_data = TEST_PAYLOADS["GITLAB_PAYLOAD"]
-    with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
-        json.dump(test_data, f)
-    yield f.name
-    os.unlink(f.name)
+def empty_payload() -> Dict[str, Any]:
+    """Return empty payload dict."""
+    return {}
 
 
 @pytest.fixture
-def empty_json_file():
-    """Create an empty JSON file."""
-    with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
-        f.write("{}")
-    yield f.name
-    os.unlink(f.name)
+def mock_args_file():
+    """Mock command line args for file input."""
+    args = MagicMock()
+    args.file = "payload.json"
+    args.url = None
+    return args
+
+
+@pytest.fixture
+def mock_args_url():
+    """Mock command line args for URL input."""
+    args = MagicMock()
+    args.file = None
+    args.url = "http://example.com/payload.json"
+    return args
