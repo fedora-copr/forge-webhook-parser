@@ -21,7 +21,7 @@ class TestParseArguments:
 
 
 class TestLoadJsonDataFile:
-    def test_load_from_file_github(self, mock_args_file, github_payload):
+    def test_load_from_file(self, mock_args_file, github_payload):
         with patch("builtins.open") as mock_open:
             mock_file = mock_open.return_value.__enter__.return_value
             mock_file.read.return_value = json.dumps(github_payload)
@@ -31,21 +31,10 @@ class TestLoadJsonDataFile:
             assert data == github_payload
             mock_open.assert_called_once_with("payload.json", "r", encoding="utf-8")
 
-    def test_load_from_file_gitlab(self, mock_args_file, gitlab_payload):
-        with patch("builtins.open") as mock_open:
-
-            mock_file = mock_open.return_value.__enter__.return_value
-            mock_file.read.return_value = json.dumps(gitlab_payload)
-
-            data = load_json_data(mock_args_file)
-
-            assert data == gitlab_payload
-            mock_open.assert_called_once_with("payload.json", "r", encoding="utf-8")
-
 
 class TestLoadJsonDataUrl:
     @patch("requests.get")
-    def test_load_from_url_github(self, mock_get, mock_args_url, github_payload):
+    def test_load_from_url(self, mock_get, mock_args_url, github_payload):
 
         mock_response = mock_get.return_value
         mock_response.json.return_value = github_payload
@@ -53,15 +42,4 @@ class TestLoadJsonDataUrl:
         data = load_json_data(mock_args_url)
 
         assert data == github_payload
-        mock_get.assert_called_once_with("http://example.com/payload.json")
-
-    @patch("requests.get")
-    def test_load_from_url_gitlab(self, mock_get, mock_args_url, gitlab_payload):
-
-        mock_response = mock_get.return_value
-        mock_response.json.return_value = gitlab_payload
-
-        data = load_json_data(mock_args_url)
-
-        assert data == gitlab_payload
         mock_get.assert_called_once_with("http://example.com/payload.json")

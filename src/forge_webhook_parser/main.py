@@ -106,7 +106,7 @@ def main():
     data = load_json_data(args)
     repo_url = extract_repository_url(data)
     project_name = extract_project_name(repo_url)
-    clone_path = Path.cwd() / "dst"/ "tmp" / "output" / project_name
+    clone_path = Path.cwd() / "dst" / "tmp" / "output" / project_name
 
     clean_clone_path(clone_path)
     clone_repo(repo_url, clone_path)

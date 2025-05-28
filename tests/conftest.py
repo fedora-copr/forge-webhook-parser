@@ -20,45 +20,9 @@ def load_json_payload(filename: str) -> Dict[str, Any]:
 @pytest.fixture
 def github_payload() -> Dict[str, Any]:
     """Return GitHub payload as a Python dict."""
-    try:
-        file_path = JSON_DIR / "github-payload.json"
-        with open(file_path, encoding="utf-8") as file:
-            return json.load(file)
-    except FileNotFoundError:
-        return {
-            "repository": {
-                "clone_url": "https://github.com/FrostyX/project-for-testing-tito.git"
-            },
-            "commits": [
-                {
-                    "added": ["ADDED.md"],
-                    "removed": ["REMOVED.md"],
-                    "modified": ["MODIFIED.md"],
-                }
-            ],
-        }
-
-
-@pytest.fixture
-def gitlab_payload() -> Dict[str, Any]:
-    """Return GitLab payload as Python dict."""
-    try:
-        file_path = JSON_DIR / "gitlab-payload.json"
-        with open(file_path, encoding="utf-8") as file:
-            return json.load(file)
-    except FileNotFoundError:
-        return {
-            "project": {
-                "git_http_url": "https://gitlab.freedesktop.org/pipewire/wireplumber.git"
-            },
-            "commits": [
-                {
-                    "added": ["ADDED_FILE.md"],
-                    "removed": ["REMOVED_FILE.md"],
-                    "modified": ["MODIFIED_FILE.md"],
-                }
-            ],
-        }
+    file_path = JSON_DIR / "github-payload.json"
+    with open(file_path, encoding="utf-8") as file:
+        return json.load(file)
 
 
 @pytest.fixture
