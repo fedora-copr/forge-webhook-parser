@@ -133,6 +133,5 @@ dmypy.json
 # VScode stuff
 .vscode/
 
-# Test repository names
-project-for-testing-tito/
-wireplumber/
+# Repository clone directory
+dst/tmp/output
