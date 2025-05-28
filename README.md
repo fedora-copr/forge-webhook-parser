@@ -71,3 +71,27 @@ For example, to upgrade the `isort` package only:
 ``` bash
 nox -s "pip-compile-3.12(formatters)" -- --no-upgrade --upgrade-package=isort
 ```
+
+## Running tests
+
+This project contains several tests to verify functionality.
+To run the tests, do the following:
+
+1. Install test requirements.
+
+   ``` bash
+   python -m pip install -r requirements/tests.in -c requirements/tests.txt
+   ```
+
+1. From the repository root, run `pytest` in one of the following ways:
+
+   ``` bash
+   # Run all tests
+   pytest
+
+   # Run a specific test class
+   pytest tests/test_parser_functions.py::TestParseArguments
+
+   # Run a specific test function
+   pytest tests/test_parser_functions.py::TestParseArguments::test_with_url_arg
+   ```
