@@ -1,0 +1,58 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "forge-webhook-parser"
+dynamic = ["version"]
+description = 'Parse webhook payloads from popular git forges.'
+readme = "README.md"
+requires-python = ">=3.9"
+license = "GPL-3.0-or-later"
+authors = [
+  { name = "Don Naro", email = "dnaro@redhat.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+    "requests",
+]
+
+[project.urls]
+Documentation = "https://github.com/fedora-copr/forge-webhook-parser/blob/main/README.md"
+Issues = "https://github.com/fedora-copr/forge-webhook-parser/issues"
+Source = "https://github.com/fedora-copr/forge-webhook-parser"
+
+[project.scripts]
+forge-webhook-parser = "forge_webhook_parser.main:main"
+
+[tool.hatch.version]
+path = "src/forge_webhook_parser/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/forge_webhook_parser"]
+
+[tool.hatch.envs.test]
+dependencies = [
+    "pytest",
+    "pytest-cov",
+]
+
+[tool.hatch.envs.test.scripts]
+test = "pytest {args:tests}"
+test-cov = "pytest --cov=forge_webhook_parser {args:tests}"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[tool.isort]
+profile = "black"
