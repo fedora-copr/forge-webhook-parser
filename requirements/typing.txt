@@ -33,12 +33,12 @@ markupsafe==3.0.2
     # via jinja2
 mypy==1.15.0
     # via
-    #   -r requirements/typing.in
+    #   -r typing.in
     #   pytest-mypy-plugins
 mypy-extensions==1.0.0
     # via mypy
 nox==2025.2.9
-    # via -r requirements/typing.in
+    # via -r typing.in
 packaging==24.2
     # via
     #   dependency-groups
@@ -52,7 +52,7 @@ pluggy==1.5.0
 pytest==8.3.5
     # via pytest-mypy-plugins
 pytest-mypy-plugins==3.2.0
-    # via -r requirements/typing.in
+    # via -r typing.in
 pyyaml==6.0.2
     # via pytest-mypy-plugins
 referencing==0.36.2
@@ -68,12 +68,12 @@ rpds-py==0.23.1
 tomlkit==0.13.2
     # via pytest-mypy-plugins
 types-requests==2.32.0.20250306
-    # via -r requirements/typing.in
+    # via -r typing.in
 typing-extensions==4.12.2
     # via
     #   mypy
     #   referencing
-urllib3==2.3.0
+urllib3==2.6.0
     # via types-requests
 virtualenv==20.29.3
     # via nox
