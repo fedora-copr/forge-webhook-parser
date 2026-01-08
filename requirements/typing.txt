@@ -73,7 +73,7 @@ typing-extensions==4.12.2
     # via
     #   mypy
     #   referencing
-urllib3==2.6.0
+urllib3==2.6.3
     # via types-requests
 virtualenv==20.29.3
     # via nox
