@@ -4,17 +4,19 @@
 #
 #    pip-compile --allow-unsafe --output-file=requirements/formatters.txt --strip-extras requirements/formatters.in
 #
-black==24.8.0
-    # via -r requirements/formatters.in
+black==26.3.1
+    # via -r formatters.in
 click==8.1.7
     # via black
 isort==5.13.2
-    # via -r requirements/formatters.in
+    # via -r formatters.in
 mypy-extensions==1.0.0
     # via black
 packaging==24.1
     # via black
-pathspec==0.12.1
+pathspec==1.0.4
     # via black
 platformdirs==4.3.6
+    # via black
+pytokens==0.4.1
     # via black
